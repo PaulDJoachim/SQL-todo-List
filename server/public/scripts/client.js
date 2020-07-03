@@ -25,13 +25,17 @@ function printList(array){
   console.log('printList will print:', array);
   for (let i=0; i<array.length; i++){
     $('#listDisplay').append(`
-    <tr data-toggle="collapse" data-target="#accordion" class="clickable">
+    <tr data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable">
       <td>${array[i].task}</td>
       <td>${array[i].due_date}</td>
     </tr>
     <tr>
       <td colspan="2" style="padding:0;">
-        <div id="accordion" class="collapse">This part is hidden</div>
+        <div id="collapse_id${array[i].id}" class="collapse">
+          <div class="card card-body">
+          ${array[i].details}
+          </div>
+        </div>
       </td>
     </tr>
     `)
