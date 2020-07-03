@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const todo = require('./modules/routes.todo');
+const router = require('./modules/routes.todo');
+
 
 const app = express();
 const PORT = 5000;
@@ -9,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('server/public'));
 
 /// ROUTES ///
-app.use('/todo', todo);
+app.use('/todo', router);
 
 /// LISTEN ///
 app.listen(PORT, ()=>{

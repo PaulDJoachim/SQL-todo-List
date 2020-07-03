@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <script src="scripts/jquery-3.5.1.min.js"></script>
+  <script src="vendors/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
   <script src="scripts/client.js"></script>
-  <script src="vendors/bootstrap-4.5.0-dist/js/boostrap/bundle.min.js"></script>
   <link href="vendors/bootstrap-4.5.0-dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/style.css" rel="stylesheet">
   <title>SQL ToDo</title>
 </head>
 <body style="background-color: #fff5e6;">
@@ -22,17 +23,28 @@
     </ul>
   </nav>
   <div class="container">
-    <table class="table table-striped">
-      <thead>
-        <th>Done</th>
-        <th>Task</th>
-        <th>Timer</th>
-        <th>Delete</th>
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
+        <th style="width: 80%;">Task</th>
+        <th>Time Remaining</th>
       </thead>
       <tbody id="listDisplay">
 
       </tbody>
     </table>
   </div>
+  <p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Link with href
+  </a>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-target
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>
 </body>
 </html>
