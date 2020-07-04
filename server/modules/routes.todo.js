@@ -31,12 +31,20 @@ router.post('/',(req, res)=>{
 })
 
 
-router.put('/',(req, res)=>{
-  res.send('Update the book')
-})
+router.put( '/:id', (req, res)=>{
+  console.log( '/todo PUT:', req.body.complete, req.params.id);
+  // update ready_to_transfer of the koala with this ID
+  const queryString = `UPDATE todo_list SET complete='${ req.body.complete }' WHERE id=${ req.params.id };`;
+  pool.query( queryString ).then( ( results )=>{
+      res.sendStatus( 200 );
+  }).catch( ( err )=>{
+      console.log( err );
+      res.sendStatus( 500 );
+  })
+}) 
 
 
-router.delete( '/:id' , ( req, res )=>{
+router.delete( '/:id', (req, res)=>{
   console.log( '/todo DELETE hit:', req.params.id );
   let queryString = `DELETE FROM todo_list WHERE id=${ req.params.id };`;
   pool.query( queryString ).then( ( results )=>{

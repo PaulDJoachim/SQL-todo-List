@@ -2,6 +2,9 @@ nav {
   margin-bottom: 1rem;
 }
 
+th {
+  font-size: large;
+}
 
 .clockdiv{
 font-family: sans-serif;
@@ -24,7 +27,37 @@ background: #ffc266;
 display: inline-block;
 }
 
+
+
+#detailsHolder{
+  display: flex;
+  flex-direction: column;
+}
+
+.editBtn{
+  margin-top: auto;
+  padding: 10px;
+}
+
 .editBtn > button{
   margin: 0px 5px 0px 5px;
   width: 15%;
+  color: black;
+}
+
+.card-text{
+  background-color: #abdde5;
+  max-width: 60%;
+  min-height: 120px;
+}
+.collapse > .card{
+  background-color: #95bdc4;
+}
+
+.collapsing > .card{
+  background-color: #95bdc4;
+}
+
+.colorpicker{
+  background-color: #b6d3bc;
 }
