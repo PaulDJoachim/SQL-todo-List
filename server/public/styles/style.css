@@ -3,20 +3,6 @@ nav {
 }
 
 
-/* body{
-text-align: center;
-background: #00ECB9;
-font-family: sans-serif;
-font-weight: 100;
-}
-
-h1{
-color: #396;
-font-weight: 100;
-font-size: 40px;
-margin: 40px 0px 20px;
-} */
-
 .clockdiv{
 font-family: sans-serif;
 color: rgb(0, 0, 0);
@@ -36,4 +22,9 @@ padding: 2px;
 border-radius: 3px;
 background: #ffc266;
 display: inline-block;
+}
+
+.editBtn > button{
+  margin: 0px 5px 0px 5px;
+  width: 15%;
 }

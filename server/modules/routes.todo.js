@@ -36,19 +36,15 @@ router.put('/',(req, res)=>{
 })
 
 
+router.delete( '/:id' , ( req, res )=>{
+  console.log( '/todo DELETE hit:', req.params.id );
+  let queryString = `DELETE FROM todo_list WHERE id=${ req.params.id };`;
+  pool.query( queryString ).then( ( results )=>{
+      res.sendStatus( 200 );
+  }).catch( ( err )=>{
+      console.log( err );
+      res.sendStatus( 500 );
+  })
+})
+
   module.exports = router;
-
-
-//   koalaRouter.post ( '/', (req,res)=>{
-//     console.log('POSTing to /koala');
-//     let queryString = `INSERT INTO "koala_table" 
-//         ("name", "age", "gender", "ready_to_transfer", "notes")
-//         VALUES ( $1, $2, $3, $4, $5)`;
-//     pool.query(queryString,
-//         [ req.body.name, req.body.age, req.body.gender, req.body.ready_to_transfer, req.body.notes]).then((result)=>{
-//             res.sendStatus(201);
-//         }).catch((error)=>{
-//             console.log('Error on /koala POST to database:', error);
-//             res.sendStatus(500);
-//         })
-// })

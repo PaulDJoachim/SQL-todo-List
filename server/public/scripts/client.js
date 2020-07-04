@@ -10,6 +10,7 @@ $(document).ready(()=>{
 
 function createEventHandlers(){
   $('#addTaskBtn').on('click', addTask);
+  $('#listDisplay').on('click','.delete', deleteTask);
 }
 
 
@@ -47,6 +48,23 @@ function addTask(){
 }
 
 
+function deleteTask(){
+  const thisTask = taskMemory[$(this).data('index')];
+  console.log( 'in deleteTask targeting task with ID#', thisTask.id );
+  // send this to server via a delete request
+  $.ajax({
+      type: "DELETE",
+      url: '/todo/' + thisTask.id
+  }).then((response)=>{
+      console.log( 'back from delete, got:', response );
+      getTasks();
+  }).catch((error)=>{
+      console.log(`error when trying to DELETE @/todo:`, error );
+  })
+}
+
+
+
 function printList(array){
   console.log('printList will print:', array);
   $('#listDisplay').empty();
@@ -56,19 +74,24 @@ function printList(array){
       <td>${array[i].task}</td>
       <td>
         <div id="clockdiv${array[i].id}" class="clockdiv">
-
             <span class="days"></span>
             <span class="hours"></span>
             <span class="minutes"></span>
-
         </div>
       </td>
     </tr>
     <tr>
       <td colspan="2" style="padding:0;">
         <div id="collapse_id${array[i].id}" class="collapse">
-          <div class="card card-body">
-          ${array[i].details}
+          <div class="card card-body py-0">
+            <div class="card card-text" rows="3">
+              ${array[i].details}
+            </div>
+            <div class="editBtn">
+              <button type="button" data-index="${i}" class="btn btn-success font-weight-bold">&#10003</button>
+              <button type="button" data-index="${i}" class="btn btn-danger float-right font-weight-bold delete">&#9747</button>
+              <button type="button" data-index="${i}" class="btn btn-danger float-right font-weight-bold mr-5" style="color: black;">Edit</button>
+            </div>
           </div>
         </div>
       </td>
@@ -78,6 +101,7 @@ function printList(array){
     initializeClock(`clockdiv${array[i].id}`, array[i].due_date);
   }
 }
+
 
 
 // Calculate the time remaining until task deadline
