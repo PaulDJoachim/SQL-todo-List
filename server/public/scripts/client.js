@@ -91,15 +91,21 @@ function getTimeRemaining(endtime){
 
 
 function initializeClock(id, endtime) {
+  let reformat = endtime.substring(0,10) + ' ' + endtime.substring(11,19)
+  console.log(reformat)
   const clock = document.getElementById(id);
   const timeinterval = setInterval(() => {
-    const t = getTimeRemaining(endtime);
+    const t = getTimeRemaining(reformat);
     clock.innerHTML = 'days: ' + t.days + '<br>' +
                       'hours: '+ t.hours + '<br>' +
                       'minutes: ' + t.minutes + '<br>' +
                       'seconds: ' + t.seconds;
     if (t.total <= 0) {
       clearInterval(timeinterval);
+      $(`#${id}`).empty();
+      $(`#${id}`).append('PAST DUE');
     }
   },1000);
 }
+
+console.log(Date.parse('2020-07-03 20:36:00') - Date.parse(new Date()));
