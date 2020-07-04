@@ -28,14 +28,14 @@
   <!-- BEGIN INPUT -->
   <div class="container">
     <p>
-      <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#addBtn" aria-expanded="false" aria-controls="collapseExample">
+      <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#expandTaskFormBtn" aria-expanded="false" aria-controls="collapseExample">
         Add New Task
       </button>
       <a class="btn btn-success" href="#addBtn" role="button" aria-expanded="false" aria-controls="collapseExample">
         Create New List
       </a>
     </p>
-    <div class="collapse" id="addBtn">
+    <div class="collapse" id="expandTaskFormBtn">
       <div class="card card-body">
         <form>
           <div class="form-group">
@@ -47,7 +47,7 @@
             <input type="date" class="form-control" id="dueDate">
             <input type="time" class="form-control" id="dueTime">
           </div>
-          <button type="button" class="btn btn-success">Create Task</button>
+          <button type="button" id="addTaskBtn" class="btn btn-success">Create Task</button>
         </form>
       </div>
     </div>

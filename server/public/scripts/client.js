@@ -4,7 +4,13 @@ taskMemory = [];
 $(document).ready(()=>{
   console.log('jQuery Working');
   getTasks();
+  createEventHandlers();
 })
+
+
+function createEventHandlers(){
+  $('#addTaskBtn').on('click', addTask);
+}
 
 
 function getTasks(){
@@ -21,13 +27,36 @@ function getTasks(){
 }
 
 
+function addTask(){
+  const newTask = {
+    task: $('#taskTitle').val(),
+    details: $('#taskDetails').val(),
+    due_date: $('#dueDate').val() + ' ' + $('#dueTime').val() +'+0' 
+  }
+  console.log('POSTing @/todo:', newTask);
+  $.ajax({
+    method: 'POST',
+    url: '/todo',
+    data: newTask
+  }).then((response)=>{
+    console.log('POSTed @/todo, reply:', response);
+    getTasks();
+  }).catch((error)=>{
+    console.log('error POSTing @/todo:', error);
+  })
+}
+
+
 function printList(array){
   console.log('printList will print:', array);
+  $('#listDisplay').empty();
   for (let i=0; i<array.length; i++){
     $('#listDisplay').append(`
     <tr data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable">
       <td>${array[i].task}</td>
-      <td>${array[i].due_date}</td>
+      <td>
+        <div id="clockdiv${array[i].id}"></div>
+      </td>
     </tr>
     <tr>
       <td colspan="2" style="padding:0;">
@@ -39,16 +68,38 @@ function printList(array){
       </td>
     </tr>
     `)
+    // initialize the countdown for each item
+    initializeClock(`clockdiv${array[i].id}`, array[i].due_date);
   }
 }
 
-// tr data-toggle="collapse" data-target="#accordion" class="clickable">
-//             <td>Some Stuff</td>
-//             <td>Some more stuff</td>
-//             <td>And some more</td>
-//         </tr>
-//         <tr>
-//             <td colspan="3">
-//                 <div id="accordion" class="collapse">Hidden by default</div>
-//             </td>
-//         </tr>
+
+function getTimeRemaining(endtime){
+  const total = Date.parse(endtime) - Date.parse(new Date());
+  const seconds = Math.floor( (total/1000) % 60 );
+  const minutes = Math.floor( (total/1000/60) % 60 );
+  const hours = Math.floor( (total/(1000*60*60)) % 24 );
+  const days = Math.floor( total/(1000*60*60*24) );
+  return {
+    total,
+    days,
+    hours,
+    minutes,
+    seconds
+  };
+}
+
+
+function initializeClock(id, endtime) {
+  const clock = document.getElementById(id);
+  const timeinterval = setInterval(() => {
+    const t = getTimeRemaining(endtime);
+    clock.innerHTML = 'days: ' + t.days + '<br>' +
+                      'hours: '+ t.hours + '<br>' +
+                      'minutes: ' + t.minutes + '<br>' +
+                      'seconds: ' + t.seconds;
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  },1000);
+}
