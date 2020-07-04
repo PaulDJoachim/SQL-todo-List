@@ -6,7 +6,7 @@ const router = express.Router()
 /// ROUTES ///
 router.get('/',(req, res)=>{
   console.log('GETing list from database')
-  let queryString = `SELECT * FROM todo_list ORDER BY id`;
+  let queryString = `SELECT * FROM todo_list ORDER BY due_date ASC`;
   pool.query(queryString).then((result)=>{
     res.send(result.rows);
   }).catch((err)=>{

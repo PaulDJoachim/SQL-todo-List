@@ -55,7 +55,13 @@ function printList(array){
     <tr data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable">
       <td>${array[i].task}</td>
       <td>
-        <div id="clockdiv${array[i].id}"></div>
+        <div id="clockdiv${array[i].id}" class="clockdiv">
+
+            <span class="days"></span>
+            <span class="hours"></span>
+            <span class="minutes"></span>
+
+        </div>
       </td>
     </tr>
     <tr>
@@ -74,9 +80,10 @@ function printList(array){
 }
 
 
+// Calculate the time remaining until task deadline
 function getTimeRemaining(endtime){
   const total = Date.parse(endtime) - Date.parse(new Date());
-  const seconds = Math.floor( (total/1000) % 60 );
+  //const seconds = Math.floor( (total/1000) % 60 );
   const minutes = Math.floor( (total/1000/60) % 60 );
   const hours = Math.floor( (total/(1000*60*60)) % 24 );
   const days = Math.floor( total/(1000*60*60*24) );
@@ -85,27 +92,36 @@ function getTimeRemaining(endtime){
     days,
     hours,
     minutes,
-    seconds
+    //seconds
   };
 }
 
 
+// Create a clock for each task and display the time remaining
 function initializeClock(id, endtime) {
-  let reformat = endtime.substring(0,10) + ' ' + endtime.substring(11,19)
-  console.log(reformat)
+  // reformat the server time into something Date.parser can actually use
+  let reformat = endtime.slice(0,10) + ' ' + endtime.slice(11,19);
   const clock = document.getElementById(id);
-  const timeinterval = setInterval(() => {
+  const daysSpan = clock.querySelector('.days');
+  const hoursSpan = clock.querySelector('.hours');
+  const minutesSpan = clock.querySelector('.minutes');
+  //const secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
     const t = getTimeRemaining(reformat);
-    clock.innerHTML = 'days: ' + t.days + '<br>' +
-                      'hours: '+ t.hours + '<br>' +
-                      'minutes: ' + t.minutes + '<br>' +
-                      'seconds: ' + t.seconds;
+
+    daysSpan.innerHTML = t.days + ' D';
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2) + ' H';
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2) + ' M';
+    //secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
     if (t.total <= 0) {
-      clearInterval(timeinterval);
       $(`#${id}`).empty();
       $(`#${id}`).append('PAST DUE');
+      //clearInterval(timeinterval);
     }
-  },1000);
-}
+  }
 
-console.log(Date.parse('2020-07-03 20:36:00') - Date.parse(new Date()));
+  updateClock();
+  const timeinterval = setInterval(updateClock, 15000);
+}
