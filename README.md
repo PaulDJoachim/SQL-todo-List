@@ -12,7 +12,8 @@ This application functions as a task manager & timer for multiple tasks. Tasks c
 
 ## Setup
 
-1. Run the query from the database.sql file to create a new table in the SQL database of your choice, values are included if you want some example tasks.
+1. Create a database called "weekend-to-do-app"
+1. Run the query from the database.sql file to create a new table in the database, values are included if you want some example tasks.
 2. Use the "$ npm install" command to install dependencies.
 3. Use the '$ npm start" command to start the server. 
 4. Access the webpage via the url "localhost:5000:
