@@ -1,9 +1,26 @@
+html{
+  height: 100%;
+}
+
+body{
+  background-repeat:no-repeat;
+  background-attachment: fixed;
+}
+
 nav {
   margin-bottom: 1rem;
 }
 
 th {
   font-size: large;
+}
+
+td {
+  color: black;
+}
+
+td:hover{
+  background-color: #00000027;
 }
 
 .clockdiv{
@@ -19,14 +36,14 @@ min-width: 118px;
 }
 
 
-
+/* 
 .clockdiv > span{
 padding: 2px;
 border-radius: 3px;
 background: #ffc266;
 display: inline-block;
 }
-
+ */
 
 
 #detailsHolder{
@@ -46,18 +63,21 @@ display: inline-block;
 }
 
 .card-text{
-  background-color: #abdde5;
+  background-color: #ffeeba;
   max-width: 60%;
   min-height: 120px;
 }
 .collapse > .card{
-  background-color: #95bdc4;
+  background-color: #d9c8a0;
 }
 
 .collapsing > .card{
-  background-color: #95bdc4;
+  background-color: #d9c8a0;
 }
 
+
+
+
 .colorpicker{
-  background-color: #b6d3bc;
+  background-color: #ffd3d3;
 }

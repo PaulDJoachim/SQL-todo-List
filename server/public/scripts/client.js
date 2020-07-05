@@ -5,7 +5,6 @@ $(document).ready(()=>{
   console.log('jQuery Working');
   getTasks();
   createEventHandlers();
-  taskPainter(taskMemory);
 })
 
 
@@ -30,6 +29,7 @@ function getTasks(){
 }
 
 
+// add a task
 function addTask(){
   const newTask = {
     task: $('#taskTitle').val(),
@@ -50,6 +50,7 @@ function addTask(){
 }
 
 
+// delete a task
 function deleteTask(){
   const thisTask = taskMemory[$(this).data('index')];
   console.log( 'in deleteTask targeting task with ID#', thisTask.id );
@@ -66,15 +67,20 @@ function deleteTask(){
 }
 
 
+// toggle the 'complete' status of a task
 function finishTask(){
   console.log('in finishTask');
   // get user input and place in an object to send
-  const thisTask = taskMemory[$(this).data('index') ];
+  const thisTask = taskMemory[$(this).data('index')];
   let dataToSend 
+    // change the 'complete' status on both server & taskMemory
+    // because GET will reprint the whole page and close open tasks
     if (!thisTask.complete) {
       dataToSend = {complete: true}
+      thisTask.complete = true;
     } else {
       dataToSend = {complete: false}
+      thisTask.complete = false;
     }
   // send put req to server
   $.ajax({
@@ -83,27 +89,28 @@ function finishTask(){
       data: dataToSend
   }).then((response)=>{
       console.log( 'back from PUT with:', response );
-      getTasks();
+      taskPainter(thisTask);
   }).catch((error)=>{
       console.log(`failed to PUT at /todo:`, error );
   })
 }
 
 
-
+// print task list entries for everything in an array
 function printList(array){
   console.log('printList will print:', array);
   $('#listDisplay').empty();
   for (let i=0; i<array.length; i++){
     $('#listDisplay').append(`
-    <tr id="taskRow${array[i].id}" data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable table-info font-weight-bold">
-      <td>${array[i].task}</td>
-      <td>
+    <tr id="taskRow${array[i].id}" data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable table-warning font-weight-bold">
+      <td style="padding:6px;">${array[i].task}</td>
+      <td style="text-align: center; padding:6px;">
         <div id="clockdiv${array[i].id}" class="clockdiv">
             <span class="days"></span>
             <span class="hours"></span>
             <span class="minutes"></span>
         </div>
+        <div id="complete${array[i].id}">COMPLETE</div>
       </td>
     </tr>
     <tr id="detalsHolder">
@@ -114,9 +121,9 @@ function printList(array){
               ${array[i].details}
             </div>
             <div class="editBtn">
-              <button type="button" data-index="${i}" class="btn btn-success font-weight-bold done">&#10003</button>
-              <button type="button" data-index="${i}" class="btn btn-danger float-right font-weight-bold delete">&#9747</button>
-              <!-- <button type="button" data-index="${i}" class="btn btn-danger float-right font-weight-bold mr-3" style="color: black;">Edit</button> -->
+              <button type="button" data-index="${i}" class="btn btn-success border-dark font-weight-bold done">&#10003</button>
+              <button type="button" data-index="${i}" class="btn btn-danger border-dark float-right font-weight-bold delete">&#9747</button>
+              <!-- <button type="button" data-index="${i}" class="btn btn-danger border-dark float-right font-weight-bold mr-3" style="color: black;">Edit</button> -->
             </div>
           </div>
         </div>
@@ -124,27 +131,42 @@ function printList(array){
     </tr>
     `)
     // initialize the countdown for each item
-    initializeClock(`clockdiv${array[i].id}`, array[i].due_date);
+    initializeClock(`clockdiv${array[i].id}`, array[i]);
+    taskPainter(array[i]);
   }
-  taskPainter(taskMemory);
 }
 
 
-// re-colors the tasks depending on their status
-function taskPainter(array){
+// re-colors a task depending on its 'complete' & 'overdue' status
+function taskPainter(task){
   console.log('in taskPainter')
-  for (let item of array) {
-    console.log(item.complete);
-    if (item.complete === true){
-      console.log($(this).data('index'))
-      $(`#taskRow${item.id}`).removeClass("table-info");
-      $(`#taskRow${item.id}`).addClass("bg-success");
-      $(`#cardText${item.id}`).css("background-color","#c3e6cb");
-      $(`#cardBody${item.id}`).css("background-color","#b6d3bc");
+  if (task.complete){
+    $(`#taskRow${task.id}`).removeClass("table-warning");
+    $(`#taskRow${task.id}`).removeClass("bg-danger");
+    $(`#taskRow${task.id}`).addClass("bg-success");
+    $(`#cardText${task.id}`).css("background-color","#d3ffdd");
+    $(`#cardBody${task.id}`).css("background-color","#85b97b");
+    $(`#clockdiv${task.id}`).hide();
+    $(`#complete${task.id}`).show();
+  } else {
+    if (task.overdue){
+      $(`#taskRow${task.id}`).removeClass("table-warning");
+      $(`#taskRow${task.id}`).addClass("bg-danger");
+      $(`#cardText${task.id}`).css("background-color","#ffd3d3");
+      $(`#cardBody${task.id}`).css("background-color","#b97b7b");
+      $(`#complete${task.id}`).hide();
+      $(`#clockdiv${task.id}`).show();
+    } else if (!task.complete && !task.overdue) {
+      $(`#taskRow${task.id}`).removeClass("bg-danger");
+      $(`#taskRow${task.id}`).removeClass("bg-success");
+      $(`#taskRow${task.id}`).addClass("table-warning");
+      $(`#cardText${task.id}`).css("background-color","#ffeeba");
+      $(`#cardBody${task.id}`).css("background-color","#d9c8a0");
+      $(`#complete${task.id}`).hide();
+      $(`#clockdiv${task.id}`).show();
     }
   }
 }
-
 
 
 // Calculate the time remaining until task deadline
@@ -165,9 +187,9 @@ function getTimeRemaining(endtime){
 
 
 // Create a clock for each task and display the time remaining
-function initializeClock(id, endtime) {
+function initializeClock(id, task) {
   // reformat the server time into something Date.parser can actually use
-  let reformat = endtime.slice(0,10) + ' ' + endtime.slice(11,19);
+  let reformat = task.due_date.slice(0,10) + ' ' + task.due_date.slice(11,19);
   const clock = document.getElementById(id);
   const daysSpan = clock.querySelector('.days');
   const hoursSpan = clock.querySelector('.hours');
@@ -183,6 +205,15 @@ function initializeClock(id, endtime) {
     if (t.total <= 0) {
       $(`#${id}`).empty();
       $(`#${id}`).append('PAST DUE');
+      // add an 'overdue' property to the object when/if it is overdue
+      task.overdue = true;
+      // re-color the task as soon it's overdue (unless it's complete already)
+      if (!task.complete){
+        $(`#taskRow${task.id}`).removeClass("table-warning");
+        $(`#taskRow${task.id}`).addClass("bg-danger");
+        $(`#cardText${task.id}`).css("background-color","#ffd3d3");
+        $(`#cardBody${task.id}`).css("background-color","#b97b7b");
+      }
       //clearInterval(timeinterval);
     }
   }

@@ -10,9 +10,9 @@
   <link href="styles/style.css" rel="stylesheet">
   <title>SQL ToDo</title>
 </head>
-<body style="background-color: #fdecbe;">
+<body style="background-image:linear-gradient(#c5a364,#b49f8a);">
   <!-- BEGIN NAV -->
-  <nav class="navbar navbar-expand-md navbar-light" style="background-color: #ffd152;">
+  <nav class="navbar navbar-expand-md navbar-light" style="background-color:#ffd152; border-bottom: #343a40 solid 6px;">
     <a class="navbar-brand" href="#">Tasker</a>
     <ul class="navbar-nav">
       <li class="nav-item active">
@@ -28,15 +28,15 @@
   <!-- BEGIN INPUT -->
   <div class="container">
     <p>
-      <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#expandTaskFormBtn" aria-expanded="false" aria-controls="collapseExample">
+      <button class="btn btn-success border-dark" type="button" data-toggle="collapse" data-target="#expandTaskFormBtn" aria-expanded="false" aria-controls="collapseExample">
         Add New Task
       </button>
-      <a class="btn btn-success" href="#addBtn" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <a class="btn btn-success border-dark" href="#addBtn" role="button" aria-expanded="false" aria-controls="collapseExample">
         Create New List
       </a>
     </p>
     <div class="collapse" id="expandTaskFormBtn">
-      <div class="card card-body">
+      <div class="card card-body border-dark">
         <form>
           <div class="form-group">
             <input type="text" class="form-control" id="taskTitle" placeholder="Task Name">
@@ -47,7 +47,7 @@
             <input type="date" class="form-control" id="dueDate">
             <input type="time" class="form-control" id="dueTime">
           </div>
-          <button type="button" id="addTaskBtn" class="btn btn-success">Create Task</button>
+          <button type="button" id="addTaskBtn" class="btn btn-success border-dark">Create Task</button>
         </form>
       </div>
     </div>
@@ -56,10 +56,10 @@
 
   <!-- BEGIN OUPUT TABLE -->
   <div class="container">
-    <table class="table table-bordered table-hover table-light">
-      <thead class="bg-info">
+    <table class="table table-bordered table-dark">
+      <thead class="thead-dark">
         <th class="w-60">Task</th>
-        <th>Time Remaining</th>
+        <th style="text-align: center;">Time Remaining</th>
       </thead>
       <tbody id="listDisplay">
         <!-- Print tasks here -->
