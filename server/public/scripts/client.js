@@ -101,8 +101,8 @@ function printList(array){
   console.log('printList will print:', array);
   $('#listDisplay').empty();
   for (let i=0; i<array.length; i++){
-    let created = array[i].created_at.replace('T',' - ').slice(0,21);
-    let due = array[i].due_date.replace('T',' - ').slice(0,21);
+    let created = array[i].created_at.replace('T',' ').slice(0,16);
+    let due = array[i].due_date.replace('T',' ').slice(0,16);
     $('#listDisplay').append(`
     <tr id="taskRow${array[i].id}" data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable table-warning font-weight-bold">
       <td style="padding:6px;">${array[i].task}</td>

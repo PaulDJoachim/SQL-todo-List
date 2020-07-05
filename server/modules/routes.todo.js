@@ -2,7 +2,6 @@ const express = require('express')
 const pool = require('./pool')
 const router = express.Router()
 
-
 /// ROUTES ///
 router.get('/',(req, res)=>{
   console.log('GETing list from database')
