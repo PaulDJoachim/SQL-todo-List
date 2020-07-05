@@ -101,6 +101,8 @@ function printList(array){
   console.log('printList will print:', array);
   $('#listDisplay').empty();
   for (let i=0; i<array.length; i++){
+    let created = array[i].created_at.replace('T',' - ').slice(0,21);
+    let due = array[i].due_date.replace('T',' - ').slice(0,21);
     $('#listDisplay').append(`
     <tr id="taskRow${array[i].id}" data-toggle="collapse" data-target="#collapse_id${array[i].id}" class="clickable table-warning font-weight-bold">
       <td style="padding:6px;">${array[i].task}</td>
@@ -116,16 +118,22 @@ function printList(array){
     <tr id="detalsHolder">
       <td colspan="2" style="padding:0;">
         <div id="collapse_id${array[i].id}" class="collapse">
-          <div id="cardBody${array[i].id}"class="card card-body py-0" style="min-height: 200px;">
-            <div id="cardText${array[i].id}" class="card card-text p-2 m-2">
-              ${array[i].details}
+          <div id="cardBody${array[i].id}"class="card card-body d-flex flex-column py-0" style="min-height: 200px;">
+            <div id="infoBoxes" class="d-flex flex-row justify-content-between" style="text-align:center">  
+              <div id="cardText${array[i].id}" class="card card-details p-2 m-2">
+                ${array[i].details}
+              </div>
+              <div id="cardTime${array[i].id}" class="card card-time p-2 m-2">
+                <strong>Created: </strong>${created}
+                <strong>Deadline: </strong>${due}
+              </div>
             </div>
             <div class="editBtn">
               <button type="button" data-index="${i}" class="btn btn-success border-dark font-weight-bold done">&#10003</button>
               <button type="button" data-index="${i}" class="btn btn-danger border-dark float-right font-weight-bold delete">&#9747</button>
               <!-- <button type="button" data-index="${i}" class="btn btn-danger border-dark float-right font-weight-bold mr-3" style="color: black;">Edit</button> -->
+              </div>
             </div>
-          </div>
         </div>
       </td>
     </tr>
@@ -145,6 +153,7 @@ function taskPainter(task){
     $(`#taskRow${task.id}`).removeClass("bg-danger");
     $(`#taskRow${task.id}`).addClass("bg-success");
     $(`#cardText${task.id}`).css("background-color","#d3ffdd");
+    $(`#cardTime${task.id}`).css("background-color","#d3ffdd");
     $(`#cardBody${task.id}`).css("background-color","#85b97b");
     $(`#clockdiv${task.id}`).hide();
     $(`#complete${task.id}`).show();
@@ -153,6 +162,7 @@ function taskPainter(task){
       $(`#taskRow${task.id}`).removeClass("table-warning");
       $(`#taskRow${task.id}`).addClass("bg-danger");
       $(`#cardText${task.id}`).css("background-color","#ffd3d3");
+      $(`#cardTime${task.id}`).css("background-color","#ffd3d3");
       $(`#cardBody${task.id}`).css("background-color","#b97b7b");
       $(`#complete${task.id}`).hide();
       $(`#clockdiv${task.id}`).show();
@@ -161,6 +171,7 @@ function taskPainter(task){
       $(`#taskRow${task.id}`).removeClass("bg-success");
       $(`#taskRow${task.id}`).addClass("table-warning");
       $(`#cardText${task.id}`).css("background-color","#ffeeba");
+      $(`#cardTime${task.id}`).css("background-color","#ffeeba");
       $(`#cardBody${task.id}`).css("background-color","#d9c8a0");
       $(`#complete${task.id}`).hide();
       $(`#clockdiv${task.id}`).show();
