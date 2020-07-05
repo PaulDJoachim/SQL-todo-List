@@ -218,13 +218,8 @@ function initializeClock(id, task) {
       $(`#${id}`).append('PAST DUE');
       // add an 'overdue' property to the object when/if it is overdue
       task.overdue = true;
-      // re-color the task as soon it's overdue (unless it's complete already)
-      if (!task.complete){
-        $(`#taskRow${task.id}`).removeClass("table-warning");
-        $(`#taskRow${task.id}`).addClass("bg-danger");
-        $(`#cardText${task.id}`).css("background-color","#ffd3d3");
-        $(`#cardBody${task.id}`).css("background-color","#b97b7b");
-      }
+      // re-color the task as soon it's overdue
+      taskPainter(task);
       //clearInterval(timeinterval);
     }
   }

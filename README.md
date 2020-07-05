@@ -8,6 +8,7 @@ This application functions as a task manager & timer for multiple tasks. Tasks c
 
 ## Screen Shots
 
+![Overview](images/example.gif)
 ![Overview](images/overview.png)
 ![Add Task](images/addTask.png)
 ![Expanded](images/expanded.png)
