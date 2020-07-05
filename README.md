@@ -6,12 +6,9 @@ _Duration: 3 Days_
 
 This application functions as a task manager & timer for multiple tasks. Tasks can be added to a list, marked as complete, and deleted. Each task can be created with a deadline and a timer will be displayed to show how much time is left before the deadline. Unfinished tasks are colored yellow, finished ones are green, and overdue ones are red. Clicking/tapping on an item in the task list will expand the item to show additional details. Each task and its corresponding status is saved and retrieved from a database.
 
-## Screen Shots
+## Example GIF
 
 ![Overview](images/example.gif)
-![Overview](images/overview.png)
-![Add Task](images/addTask.png)
-![Expanded](images/expanded.png)
 
 ## Setup
 
